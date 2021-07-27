@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useContext, useReducer } from "react";
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  useReducer,
+  useCallback,
+} from "react";
 
 import { Header } from "./Header";
 import { Menu } from "./Menu";
@@ -65,7 +71,7 @@ const Speakers = ({}) => {
           return 0;
         });
 
-  const heartFavouriteHandler = (e, favouriteValue) => {
+  const heartFavouriteHandler = useCallback((e, favouriteValue) => {
     e.preventDefault();
     const sessionId = parseInt(e.target.attributes["data-sessionid"].value);
 
@@ -82,7 +88,7 @@ const Speakers = ({}) => {
     //     return item;
     //   })
     // );
-  };
+  }, []);
 
   if (isLoading) return <div>Loading...</div>;
 
