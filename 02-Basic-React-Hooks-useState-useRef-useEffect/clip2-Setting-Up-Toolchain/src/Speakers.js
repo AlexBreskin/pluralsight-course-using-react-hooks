@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useReducer } from "react";
 
 import { Header } from "./Header";
 import { Menu } from "./Menu";
@@ -10,7 +10,18 @@ const Speakers = ({}) => {
   const [speakingSaturday, setSpeakingSaturday] = useState(true);
   const [speakingSunday, setSpeakingSunday] = useState(true);
 
-  const [speakerList, setSpeakerList] = useState([]);
+  // const [speakerList, setSpeakerList] = useState([]);
+  function speakersReducer(state, action) {
+    switch (action.type) {
+      case "setSpeakerList": {
+        return action.data;
+      }
+      default:
+        return state;
+    }
+  }
+  const [speakerList, dispatch] = useReducer(speakersReducer, []);
+
   const [isLoading, setIsLoading] = useState(true);
 
   const context = useContext(ConfigContext);
@@ -23,9 +34,16 @@ const Speakers = ({}) => {
       }, 1000);
     }).then(() => {
       setIsLoading(false);
+      const speakerListServerFilter = SpeakerData.filter(({ sat, sun }) => {
+        return (speakingSaturday && sat) || (speakingSunday && sun);
+      });
+      // setSpeakerList(SpeakerData);
+      dispatch({
+        type: "setSpeakerList",
+        data: speakerListServerFilter,
+      });
     });
 
-    setSpeakerList(SpeakerData);
     return () => {
       console.log("cleanup");
     };
@@ -57,14 +75,14 @@ const Speakers = ({}) => {
   const heartFavouriteHandler = (e, favouriteValue) => {
     e.preventDefault();
     const sessionId = parseInt(e.target.attributes["data-sessionid"].value);
-    setSpeakerList(
-      speakerList.map((item) => {
-        if (item.id === sessionId) {
-          return { ...item, favourite: favouriteValue };
-        }
-        return item;
-      })
-    );
+    // setSpeakerList(
+    //   speakerList.map((item) => {
+    //     if (item.id === sessionId) {
+    //       return { ...item, favourite: favouriteValue };
+    //     }
+    //     return item;
+    //   })
+    // );
   };
 
   if (isLoading) return <div>Loading...</div>;
