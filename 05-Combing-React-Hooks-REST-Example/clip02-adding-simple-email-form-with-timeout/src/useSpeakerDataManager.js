@@ -8,7 +8,14 @@ function useSpeakerDataManager() {
   const initialSpeakersData = useContext(InitialSpeakersDataContext);
 
   const [
-    { isLoading, speakerList, favoriteClickCount, hasErrored, error },
+    {
+      isLoading,
+      speakerList,
+      favoriteClickCount,
+      hasErrored,
+      error,
+      imageRerenderIdentifier,
+    },
     dispatch,
   ] = useReducer(speakersReducer, {
     isLoading: true,
@@ -16,10 +23,15 @@ function useSpeakerDataManager() {
     favoriteClickCount: 0,
     hasErrored: false,
     error: null,
+    imageRerenderIdentifier: 0,
   });
 
   function incrementFavoriteClickCount() {
     dispatch({ type: 'incrementFavoriteClickCount' });
+  }
+
+  function forceImageRerender() {
+    dispatch({ type: 'forceImageRerender' });
   }
 
   function toggleSpeakerFavorite(speakerRec) {
@@ -58,6 +70,8 @@ function useSpeakerDataManager() {
     toggleSpeakerFavorite,
     hasErrored,
     error,
+    forceImageRerender,
+    imageRerenderIdentifier,
   };
 }
 

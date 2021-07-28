@@ -12,6 +12,8 @@ export const GlobalProvider = ({ children }) => {
     incrementFavoriteClickCount,
     hasErrored,
     error,
+    imageRerenderIdentifier,
+    forceImageRerender,
   } = useSpeakerDataManager();
 
   const provider = {
@@ -22,6 +24,8 @@ export const GlobalProvider = ({ children }) => {
     incrementFavoriteClickCount,
     hasErrored,
     error,
+    imageRerenderIdentifier,
+    forceImageRerender,
   };
 
   return (

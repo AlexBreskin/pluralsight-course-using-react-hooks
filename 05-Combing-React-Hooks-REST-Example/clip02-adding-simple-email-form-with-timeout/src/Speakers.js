@@ -15,12 +15,15 @@ const Speakers = ({}) => {
     toggleSpeakerFavorite,
     hasErrored,
     error,
+    forceImageRerender,
   } = useContext(GlobalContext);
 
   const handleChangeSaturday = () => {
+    forceImageRerender();
     setSpeakingSaturday(!speakingSaturday);
   };
   const handleChangeSunday = () => {
+    forceImageRerender();
     setSpeakingSunday(!speakingSunday);
   };
   const heartFavoriteHandler = useCallback((e, speakerRec) => {

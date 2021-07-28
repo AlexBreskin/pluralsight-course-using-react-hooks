@@ -28,6 +28,9 @@ const speakersReducer = (state, action) => {
     case 'errored': {
       return { ...state, hasErrored: true, error: action.error };
     }
+    case 'forceImageRerender': {
+      return { ...state, imageRerenderIdentifier: new Date().getTime() };
+    }
     default:
       return state;
   }
