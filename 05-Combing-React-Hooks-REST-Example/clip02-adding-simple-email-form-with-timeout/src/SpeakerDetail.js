@@ -1,14 +1,13 @@
-import { useContext } from 'react';
-import React from 'react';
+import React, { useContext } from 'react';
 import ImageToggleOnScroll from './ImageToggleOnScroll';
 import useSpeakerDataManager from './useSpeakerDataManager';
-import { GlobalContext } from './GlobalState';
+import { FavoriteClickCountContext } from './FavoriteClickCountContext';
 
 const SpeakerDetail = React.memo(({ speakerRec, onHeartFavoriteHandler }) => {
   const { id, firstName, lastName, bio, favorite } = speakerRec;
   console.log(`SpeakerDetail:${id} ${firstName} ${lastName} ${favorite}`);
 
-  const { incrementFavoriteClickCount } = useContext(GlobalContext);
+  const { incrementFavoriteClickCount } = useContext(FavoriteClickCountContext);
 
   return (
     <div className="card col-4 cardmin">
