@@ -7,14 +7,16 @@ import { InitialSpeakersDataContext } from '../pages/speakers';
 function useSpeakerDataManager() {
   const initialSpeakersData = useContext(InitialSpeakersDataContext);
 
-  const [{ isLoading, speakerList, favoriteClickCount }, dispatch] = useReducer(
-    speakersReducer,
-    {
-      isLoading: true,
-      speakerList: [],
-      favoriteClickCount: 0,
-    },
-  );
+  const [
+    { isLoading, speakerList, favoriteClickCount, hasErrored, error },
+    dispatch,
+  ] = useReducer(speakersReducer, {
+    isLoading: true,
+    speakerList: [],
+    favoriteClickCount: 0,
+    hasErrored: false,
+    error: null,
+  });
 
   function incrementFavoriteClickCount() {
     dispatch({ type: 'incrementFavoriteClickCount' });
@@ -34,20 +36,13 @@ function useSpeakerDataManager() {
   }
 
   useEffect(() => {
-    // new Promise(function (resolve) {
-    //   setTimeout(function () {
-    //     resolve();
-    //   }, 1000);
-    // }).then(() => {
-    //   dispatch({
-    //     type: 'setSpeakerList',
-    //     data: SpeakerData,
-    //   });
-    // });
-
     const fetchData = async function () {
-      let result = await axios.get('/api/speakers');
-      dispatch({ type: 'setSpeakerList', data: result.data });
+      try {
+        let result = await axios.get('/api/speakers');
+        dispatch({ type: 'setSpeakerList', data: result.data });
+      } catch (error) {
+        dispatch({ type: 'errored', error });
+      }
     };
     fetchData();
 
@@ -61,6 +56,8 @@ function useSpeakerDataManager() {
     favoriteClickCount,
     incrementFavoriteClickCount,
     toggleSpeakerFavorite,
+    hasErrored,
+    error,
   };
 }
 
