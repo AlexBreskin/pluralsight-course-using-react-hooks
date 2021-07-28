@@ -3,18 +3,15 @@ import { Header } from '../src/Header';
 import { Menu } from '../src/Menu';
 import SpeakerDetail from './SpeakerDetail';
 import { ConfigContext } from './App';
-import useSpeakerDataManager from './useSpeakerDataManager';
+import { GlobalContext } from './GlobalState';
 
 const Speakers = ({}) => {
   const [speakingSaturday, setSpeakingSaturday] = useState(true);
   const [speakingSunday, setSpeakingSunday] = useState(true);
   const context = useContext(ConfigContext);
-
-  const {
-    isLoading,
-    speakerList,
-    toggleSpeakerFavorite,
-  } = useSpeakerDataManager();
+  const { isLoading, speakerList, toggleSpeakerFavorite } = useContext(
+    GlobalContext,
+  );
 
   const handleChangeSaturday = () => {
     setSpeakingSaturday(!speakingSaturday);
