@@ -1,7 +1,7 @@
 import React from 'react';
-import { GlobalContext } from './GlobalState';
 import Home from './Home';
 import Speakers from './Speakers';
+import { GlobalProvider } from './GlobalState';
 
 export const ConfigContext = React.createContext();
 
@@ -19,9 +19,9 @@ const configValue = {
 const App = ({ pageName }) => {
   return (
     <ConfigContext.Provider value={configValue}>
-      <GlobalContext>
+      <GlobalProvider>
         <div>{pageToShow(pageName)}</div>
-      </GlobalContext>
+      </GlobalProvider>
     </ConfigContext.Provider>
   );
 };

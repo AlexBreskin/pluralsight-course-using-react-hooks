@@ -7,10 +7,18 @@ import { InitialSpeakersDataContext } from '../pages/speakers';
 function useSpeakerDataManager() {
   const initialSpeakersData = useContext(InitialSpeakersDataContext);
 
-  const [{ isLoading, speakerList }, dispatch] = useReducer(speakersReducer, {
-    isLoading: true,
-    speakerList: [],
-  });
+  const [{ isLoading, speakerList, favoriteClickCount }, dispatch] = useReducer(
+    speakersReducer,
+    {
+      isLoading: true,
+      speakerList: [],
+      favoriteClickCount: 10,
+    },
+  );
+
+  function incrementFavoriteClickCount() {
+    dispatch({ type: 'incrementFavoriteClickCount' });
+  }
 
   function toggleSpeakerFavorite(speakerRec) {
     const updateData = async function () {
@@ -47,7 +55,13 @@ function useSpeakerDataManager() {
       console.log('cleanup');
     };
   }, []); // [speakingSunday, speakingSaturday]);
-  return { isLoading, speakerList, toggleSpeakerFavorite };
+  return {
+    isLoading,
+    speakerList,
+    favoriteClickCount,
+    incrementFavoriteClickCount,
+    toggleSpeakerFavorite,
+  };
 }
 
 export default useSpeakerDataManager;
